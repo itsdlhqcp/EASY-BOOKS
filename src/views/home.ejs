@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookStore - Complete Application</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a, .nav-btn {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .nav-links a:hover, .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            border: none;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .welcome-section {
+            text-align: center;
+            padding: 3rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .welcome-section h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .welcome-section p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .search-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-container {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .search-input {
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            min-width: 300px;
+            backdrop-filter: blur(10px);
+            font-size: 1rem;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .books-section {
+            margin-top: 3rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .book-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .book-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .book-card:hover::before {
+            left: 100%;
+        }
+
+        .book-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .book-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .book-author {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .book-genre {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .book-description {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        .book-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 1rem;
+        }
+
+        .book-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .book-actions .btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 2% auto;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            color: white;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .close {
+            color: rgba(255, 255, 255, 0.7);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .rating-input {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .star {
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .star.active,
+        .star:hover {
+            color: #ffd700;
+        }
+
+        .reviews-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+        }
+
+        .review-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .review-author {
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .review-rating {
+            color: #ffd700;
+            font-size: 1.2rem;
+        }
+
+        .review-date {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .review-comment {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.5;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 2rem 0;
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination button.active {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .no-results {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 3rem;
+            font-size: 1.2rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.2);
+            color: #fff;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border: 1px solid rgba(255, 0, 0, 0.3);
+        }
+
+        .success {
+            background: rgba(0, 255, 0, 0.2);
+            color: #fff;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .welcome-section h1 {
+                font-size: 2rem;
+            }
+
+            .search-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .search-input {
+                min-width: 250px;
+            }
+
+            .actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .book-actions {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">📚 BookStore</div>
+        <div class="nav-links">
+            <button class="nav-btn" onclick="showHome()">Home</button>
+            <button class="nav-btn" onclick="showAllBooks()">Browse Books</button>
+            <button class="nav-btn" onclick="showAddBookModal()">Add Book</button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Home Section -->
+        <div id="homeSection">
+            <div class="welcome-section">
+                <h1>Welcome to BookStore!</h1>
+                <p>Discover, review, and share amazing books with fellow readers</p>
+            </div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalBooks">0</div>
+                    <div class="stat-label">Total Books</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalReviews">0</div>
+                    <div class="stat-label">Total Reviews</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Active Users</div>
+                </div>
+            </div>
+
+            <div class="search-section">
+                <h2 class="section-title">Search Books</h2>
+                <div class="search-container">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search by title or author...">
+                    <button class="btn" onclick="searchBooks()">Search</button>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn" onclick="showAddBookModal()">Add New Book</button>
+                <button class="btn btn-secondary" onclick="showAllBooks()">View All Books</button>
+            </div>
+
+            <div class="books-section">
+                <h2 class="section-title">Recent Books</h2>
+                <div class="books-grid" id="recentBooksGrid">
+                    <div class="loading">Loading recent books...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- All Books Section -->
+        <div id="allBooksSection" style="display: none;">
+            <div class="books-section">
+                <h2 class="section-title">All Books</h2>
+                <div class="books-grid" id="allBooksGrid">
+                    <div class="loading">Loading books...</div>
+                </div>
+                <div class="pagination" id="booksPagination"></div>
+            </div>
+        </div>
+
+        <!-- Search Results Section -->
+        <div id="searchResultsSection" style="display: none;">
+            <div class="books-section">
+                <h2 class="section-title" id="searchResultsTitle">Search Results</h2>
+                <div class="books-grid" id="searchResultsGrid"></div>
+                <div class="pagination" id="searchPagination"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Book Modal -->
+    <div id="addBookModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('addBookModal')">&times;</span>
+            <h2>Add New Book</h2>
+            <form id="addBookForm">
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" required placeholder="Enter book title">
+                </div>
+                <div class="form-group">
+                    <label for="author">Author:</label>
+                    <input type="text" id="author" required placeholder="Enter author name">
+                </div>
+                <div class="form-group">
+                    <label for="genre">Genre:</label>
+                    <select id="genre" required>
+                        <option value="">Select Genre</option>
+                        <option value="Fiction">Fiction</option>
+                        <option value="Non-Fiction">Non-Fiction</option>
+                        <option value="Mystery">Mystery</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Science Fiction">Science Fiction</option>
+                        <option value="Fantasy">Fantasy</option>
+                        <option value="Biography">Biography</option>
+                        <option value="History">History</option>
+                        <option value="Self-Help">Self-Help</option>
+                        <option value="Technology">Technology</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" required placeholder="Enter book description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="publishedYear">Published Year:</label>
+                    <input type="number" id="publishedYear" min="1000" max="2024" required placeholder="Enter publication year">
+                </div>
+                <div class="form-group">
+                    <label for="isbn">ISBN:</label>
+                    <input type="text" id="isbn" required placeholder="Enter ISBN">
+                </div>
+                <button type="submit" class="btn">Add Book</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Book Details Modal -->
+    <div id="bookDetailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('bookDetailsModal')">&times;</span>
+            <div id="bookDetailsContent">
+                <div class="loading">Loading book details...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Review Modal -->
+    <div id="addReviewModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('addReviewModal')">&times;</span>
+            <h2>Add Review</h2>
+            <form id="addReviewForm">
+                <div class="form-group">
+                    <label>Rating:</label>
+                    <div class="rating-input">
+                        <span class="star" data-rating="1">★</span>
+                        <span class="star" data-rating="2">★</span>
+                        <span class="star" data-rating="3">★</span>
+                        <span class="star" data-rating="4">★</span>
+                        <span class="star" data-rating="5">★</span>
+                    </div>
+                    <input type="hidden" id="reviewRating" required>
+                </div>
+                <div class="form-group">
+                    <label for="reviewComment">Comment:</label>
+                    <textarea id="reviewComment" required placeholder="Write your review..."></textarea>
+                </div>
+                <button type="submit" class="btn">Submit Review</button>
+            </form>
+        </div>
+    </div>
+
+// script code
+
+
+    <script>
+        // Global variables
+        let currentBookId = null;
+        let currentPage = 1;
+        let currentSection = 'home';
+        let selectedRating = 0;
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStats();
+            loadRecentBooks();
+            setupEventListeners();
+        });
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Add Book Form
+            document.getElementById('addBookForm').addEventListener('submit', handleAddBook);
+            
+            // Add Review Form
+            document.getElementById('addReviewForm').addEventListener('submit', handleAddReview);
+            
+            // Search input
+            document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchBooks();
+                }
+            });
+
+            // Rating stars
+            document.querySelectorAll('.star').forEach(star => {
+                star.addEventListener('click', function() {
+                    selectedRating = parseInt(this.getAttribute('data-rating'));
+                    document.getElementById('reviewRating').value = selectedRating;
+                    updateStarDisplay();
+                });
+            });
+
+            // Modal close on outside click
+            window.addEventListener('click', function(e) {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Update star display
+        function updateStarDisplay() {
+            document.querySelectorAll('.star').forEach((star, index) => {
+                if (index < selectedRating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        // Show different sections
+        function showHome() {
+            document.getElementById('homeSection').style.display = 'block';
+            document.getElementById('allBooksSection').style.display = 'none';
+            document.getElementById('searchResultsSection').style.display = 'none';
+            currentSection = 'home';
+            loadRecentBooks();
+        }
+
+        function showAllBooks() {
+            document.getElementById('homeSection').style.display = 'none';
+            document.getElementById('allBooksSection').style.display = 'block';
+            document.getElementById('searchResultsSection').style.display = 'none';
+            currentSection = 'allBooks';
+            loadAllBooks(1);
+        }
+
+        function showSearchResults() {
+            document.getElementById('homeSection').style.display = 'none';
+            document.getElementById('allBooksSection').style.display = 'none';
+            document.getElementById('searchResultsSection').style.display = 'block';
+            currentSection = 'searchResults';
+        }
+
+        // Load statistics
+        async function loadStats() {
+            try {
+                const response = await fetch('/books');
+                const data = await response.json();
+                
+                document.getElementById('totalBooks').textContent = data.pagination.totalBooks;
+                
+                // Load total reviews (simplified - in real app, you'd have a separate endpoint)
+                document.getElementById('totalReviews').textContent = '0';
+                
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        // Load recent books
+        async function loadRecentBooks() {
+            try {
+                const response = await fetch('/books?limit=6');
+                const data = await response.json();
+                
+                const grid = document.getElementById('recentBooksGrid');
+                if (data.books.length === 0) {
+                    grid.innerHTML = '<div class="no-results">No books available. Be the first to add a book!</div>';
+                } else {
+                    grid.innerHTML = data.books.map(book => createBookCard(book)).join('');
+                }
+
+                // Update stats
+                document.getElementById('totalBooks').textContent = data.pagination.totalBooks;
+                
+            } catch (error) {
+                console.error('Error loading recent books:', error);
+                document.getElementById('recentBooksGrid').innerHTML = '<div class="error">Error loading books</div>';
+            }
+        }
+
+        // Load all books with pagination
+        async function loadAllBooks(page = 1) {
+            try {
+                const response = await fetch(`/books?page=${page}&limit=12`);
+                const data = await response.json();
+                
+                const grid = document.getElementById('allBooksGrid');
+                if (data.books.length === 0) {
+                    grid.innerHTML = '<div class="no-results">No books available.</div>';
+                } else {
+                    grid.innerHTML = data.books.map(book => createBookCard(book)).join('');
+                }
+
+                // Update pagination
+                createPagination('booksPagination', data.pagination, loadAllBooks);
+                
+            } catch (error) {
+                console.error('Error loading all books:', error);
+                document.getElementById('allBooksGrid').innerHTML = '<div class="error">Error loading books</div>';
+            }
+        }
+
+        // Search books
+        async function searchBooks(page = 1) {
+            const query = document.getElementById('searchInput').value.trim();
+            if (!query) {
+                showError('Please enter a search query');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/search?q=${encodeURIComponent(query)}&page=${page}&limit=12`);
+                const data = await response.json();
+                
+                showSearchResults();
+                
+                const grid = document.getElementById('searchResultsGrid');
+                const title = document.getElementById('searchResultsTitle');
+                
+                title.textContent = `Search Results for "${query}"`;
+                
+                if (data.books.length === 0) {
+                    grid.innerHTML = '<div class="no-results">No books found matching your search.</div>';
+                } else {
+                    grid.innerHTML = data.books.map(book => createBookCard(book)).join('');
+                }
+
+                // Update pagination
+                createPagination('searchPagination', data.pagination, (p) => searchBooks(p));
+                
+            } catch (error) {
+                console.error('Error searching books:', error);
+                showError('Error searching books');
+            }
+        }
+
+        // Create book card HTML
+        function createBookCard(book) {
+            return `
+                <div class="book-card">
+                    <div class="book-title">${book.title}</div>
+                    <div class="book-author">by ${book.author}</div>
+                    <div class="book-genre">${book.genre}</div>
+                    <div class="book-description">
+                        ${book.description.length > 150 ? book.description.substring(0, 150) + '...' : book.description}
+                    </div>
+                    <div class="book-meta">
+                        <span>Published: ${book.publishedYear}</span>
+                        <div class="book-actions">
+                            <button class="btn" onclick="viewBookDetails('${book._id}')">View Details</button>
+                            <button class="btn btn-secondary" onclick="showAddReviewModal('${book._id}')">Add Review</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Create pagination
+        function createPagination(containerId, pagination, callback) {
+            const container = document.getElementById(containerId);
+            
+            if (pagination.totalPages <= 1) {
+                container.innerHTML = '';
+                return;
+            }
+
+            let paginationHtml = '<div class="pagination-container">';
+            
+            // Previous button
+            if (pagination.hasPrev) {
+                paginationHtml += `<button class="pagination-btn" onclick="${callback.name}(${pagination.currentPage - 1})">← Previous</button>`;
+            }
+
+            // Page numbers
+            const startPage = Math.max(1, pagination.currentPage - 2);
+            const endPage = Math.min(pagination.totalPages, pagination.currentPage + 2);
+
+            if (startPage > 1) {
+                paginationHtml += `<button class="pagination-btn" onclick="${callback.name}(1)">1</button>`;
+                if (startPage > 2) {
+                    paginationHtml += '<span class="pagination-dots">...</span>';
+                }
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const isActive = i === pagination.currentPage ? 'active' : '';
+                paginationHtml += `<button class="pagination-btn ${isActive}" onclick="${callback.name}(${i})">${i}</button>`;
+            }
+
+            if (endPage < pagination.totalPages) {
+                if (endPage < pagination.totalPages - 1) {
+                    paginationHtml += '<span class="pagination-dots">...</span>';
+                }
+                paginationHtml += `<button class="pagination-btn" onclick="${callback.name}(${pagination.totalPages})">${pagination.totalPages}</button>`;
+            }
+
+            // Next button
+            if (pagination.hasNext) {
+                paginationHtml += `<button class="pagination-btn" onclick="${callback.name}(${pagination.currentPage + 1})">Next →</button>`;
+            }
+
+            paginationHtml += '</div>';
+            container.innerHTML = paginationHtml;
+        }
+
+        // View book details
+        async function viewBookDetails(bookId) {
+            try {
+                document.getElementById('bookDetailsModal').style.display = 'block';
+                document.getElementById('bookDetailsContent').innerHTML = '<div class="loading">Loading book details...</div>';
+
+                const response = await fetch(`/books/${bookId}`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    const book = data.book;
+                    const reviews = data.reviews;
+                    const averageRating = data.averageRating;
+                    const reviewCount = data.reviewCount;
+
+                    let detailsHtml = `
+                        <div class="book-details">
+                            <h2>${book.title}</h2>
+                            <p><strong>Author:</strong> ${book.author}</p>
+                            <p><strong>Genre:</strong> ${book.genre}</p>
+                            <p><strong>Published Year:</strong> ${book.publishedYear}</p>
+                            <p><strong>ISBN:</strong> ${book.isbn}</p>
+                            <p><strong>Description:</strong> ${book.description}</p>
+                            <div class="rating-summary">
+                                <strong>Average Rating:</strong> ${averageRating}/5 (${reviewCount} reviews)
+                            </div>
+                        </div>
+                        <div class="reviews-section">
+                            <h3>Reviews</h3>
+                    `;
+
+                    if (reviews.length === 0) {
+                        detailsHtml += '<p>No reviews yet. Be the first to review this book!</p>';
+                    } else {
+                        reviews.forEach(review => {
+                            detailsHtml += `
+                                <div class="review">
+                                    <div class="review-header">
+                                        <strong>${review.username}</strong>
+                                        <span class="rating">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span>
+                                    </div>
+                                    <p>${review.comment}</p>
+                                    <small>Posted on ${new Date(review.createdAt).toLocaleDateString()}</small>
+                                </div>
+                            `;
+                        });
+                    }
+
+                    detailsHtml += '</div>';
+                    document.getElementById('bookDetailsContent').innerHTML = detailsHtml;
+                } else {
+                    document.getElementById('bookDetailsContent').innerHTML = '<div class="error">Error loading book details</div>';
+                }
+            } catch (error) {
+                console.error('Error viewing book details:', error);
+                document.getElementById('bookDetailsContent').innerHTML = '<div class="error">Error loading book details</div>';
+            }
+        }
+
+        // Modal functions
+        function showAddBookModal() {
+            document.getElementById('addBookModal').style.display = 'block';
+        }
+
+        function showAddReviewModal(bookId) {
+            currentBookId = bookId;
+            selectedRating = 0;
+            document.getElementById('reviewRating').value = '';
+            document.getElementById('reviewComment').value = '';
+            updateStarDisplay();
+            document.getElementById('addReviewModal').style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Handle add book form submission
+        async function handleAddBook(e) {
+            e.preventDefault();
+
+            const formData = {
+                title: document.getElementById('title').value,
+                author: document.getElementById('author').value,
+                genre: document.getElementById('genre').value,
+                description: document.getElementById('description').value,
+                publishedYear: document.getElementById('publishedYear').value,
+                isbn: document.getElementById('isbn').value
+            };
+
+            try {
+                const response = await fetch('/books', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showSuccess('Book added successfully!');
+                    document.getElementById('addBookForm').reset();
+                    closeModal('addBookModal');
+                    
+                    // Refresh current view
+                    if (currentSection === 'home') {
+                        loadRecentBooks();
+                        loadStats();
+                    } else if (currentSection === 'allBooks') {
+                        loadAllBooks(currentPage);
+                    }
+                } else {
+                    showError(result.error || 'Error adding book');
+                }
+            } catch (error) {
+                console.error('Error adding book:', error);
+                showError('Error adding book');
+            }
+        }
+
+        // Handle add review form submission
+        async function handleAddReview(e) {
+            e.preventDefault();
+
+            if (!selectedRating) {
+                showError('Please select a rating');
+                return;
+            }
+
+            const reviewData = {
+                rating: selectedRating,
+                comment: document.getElementById('reviewComment').value
+            };
+
+            try {
+                const response = await fetch(`/books/${currentBookId}/reviews`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(reviewData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showSuccess('Review added successfully!');
+                    document.getElementById('addReviewForm').reset();
+                    selectedRating = 0;
+                    updateStarDisplay();
+                    closeModal('addReviewModal');
+                } else {
+                    showError(result.error || 'Error adding review');
+                }
+            } catch (error) {
+                console.error('Error adding review:', error);
+                showError('Error adding review');
+            }
+        }
+
+        // Utility functions
+        function showSuccess(message) {
+            // Simple alert for now - you can implement a better notification system
+            alert(message);
+        }
+
+        function showError(message) {
+            // Simple alert for now - you can implement a better notification system
+            alert(message);
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = '/logout';
+            }
+        }
+
+        // Handle window resize for responsive behavior
+        window.addEventListener('resize', function() {
+            // Add any responsive adjustments if needed
+        });
+    </script>
+</body>
+</html>
